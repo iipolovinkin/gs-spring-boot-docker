@@ -13,8 +13,8 @@ public class HelloServiceImpl implements HelloService {
         try {
             return "Hello Docker World";
         } catch (Exception e) {
-            log.info("sayHello: e: {}", e);
-            Sentry.capture(e);
+            log.error("sayHello:", e);
+            Sentry.captureException(e);
         }
         return "temporary unavailable";
     }

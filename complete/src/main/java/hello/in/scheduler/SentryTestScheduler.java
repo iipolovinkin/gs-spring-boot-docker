@@ -3,7 +3,6 @@ package hello.in.scheduler;
 import hello.domain.service.HelloService;
 import hello.metric.HelloCounter;
 import io.sentry.Sentry;
-import io.sentry.event.BreadcrumbBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,17 +23,17 @@ public class SentryTestScheduler {
         try {
             throw new IllegalArgumentException("Bad random integer 22 " + ThreadLocalRandom.current().nextInt(3));
         } catch (Exception e) {
-            log.info("scheduledCaptureException():", e);
-            Sentry.getContext().addTag("tag-key", "tag-value");
-            Sentry.getContext().addExtra("extra-key", "extra-value");
-            Sentry.capture(e);
+            log.error("scheduledCaptureException():", e);
+            Sentry.setTag("tag-key", "tag-value");
+            Sentry.setExtra("extra-key", "extra-value");
+            Sentry.captureException(e);
         }
     }
 
     @Scheduled(cron = "*/5 * * * * *")
     public void scheduledCaptureStringMessage() {
-        Sentry.getContext().addTag("tag-key", "tag-value2");
-        Sentry.getContext().addExtra("extra-key", "extra-value2");
-        Sentry.capture("Bad random double" + ThreadLocalRandom.current().nextInt(1));
+        Sentry.setTag("tag-key", "tag-value2");
+        Sentry.setExtra("extra-key", "extra-value2");
+        Sentry.captureMessage("Bad random double" + ThreadLocalRandom.current().nextInt(1));
     }
 }

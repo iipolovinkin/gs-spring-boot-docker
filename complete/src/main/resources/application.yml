@@ -1,6 +1,13 @@
 server:
   port: 8080
+sentry:
+  dsn: http://857a6e1731ba4c7e8709259031f05183@localhost:8000/1
 
+  # Set traces_sample_rate to 1.0 to capture 100%
+  # of transactions for performance monitoring.
+  # We recommend adjusting this value in production.
+  tracesSampleRate: 1.0
+  exception-resolver-order: -2147483647
 #TODO: figure out why I need this here and in bootstrap.yml
 spring:
   application:
