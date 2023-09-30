@@ -1,29 +1,18 @@
 package hello;
 
-import hello.metric.HelloCounter;
-import lombok.RequiredArgsConstructor;
+import io.sentry.Sentry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@RestController
-@RequiredArgsConstructor
+@EnableScheduling
 public class Application {
 
-	private final HelloCounter helloCounter;
-
-	@RequestMapping("/")
-	public String home() {
-		String s = "Hello Docker World";
-		System.out.println("s = " + s);
-		helloCounter.incSuccess();
-		return s;
-	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        String dsn = "http://857a6e1731ba4c7e8709259031f05183@localhost:8000/1";
+        Sentry.init(dsn);
+        SpringApplication.run(Application.class, args);
+    }
 
 }
